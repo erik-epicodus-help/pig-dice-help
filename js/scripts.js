@@ -3,10 +3,10 @@
 // Biz Logic
 
 function Player(currentRoll, turnScore, totalScore, isActive) {
-  this.currentRoll = 0;
-  this.turnScore = 0;
-  this.totalScore = 0;
-  this.isActive = true;
+  this.currentRoll = currentRoll;
+  this.turnScore = turnScore;
+  this.totalScore = totalScore;
+  this.isActive = isActive;
 }
 
 Player.prototype.rollDice = function() {
@@ -16,7 +16,7 @@ Player.prototype.rollDice = function() {
     this.turnScore = 0
     this.currentRoll = 1
     this.isActive = false
-    activePlayer();
+    activePlayerSwitch();
   } else {this.turnScore += randomNumber}
   return this.currentRoll;
 };
@@ -30,23 +30,35 @@ Player.prototype.gameScore = function(){
 };
 
 function activePlayer () {
-  if (player1.isActive === true) {
+  if (player1.isActive === true){
     $(".btn-holdTwo").hide();
     $(".btn-rollTwo").hide();
     $(".btn-holdOne").show();
-    $(".btn-rollOne").show();
-  } else if (player1.isActive === false) {
+    $(".btn-rollOne").show(); 
+  } else if (player2.isActive === true) {
     $(".btn-holdOne").hide();
     $(".btn-rollOne").hide();
     $(".btn-holdTwo").show();
     $(".btn-rollTwo").show();
-  }
+  } 
 
+}
+
+function activePlayerSwitch () {
+  if (player1.isActive === true) {
+    player1.isActive === false
+    player2.isActive === true
+    activePlayer();
+  } else if (player2.isActive === true) {
+    player2.isActive === false
+    player1.isActive === true
+    activePlayer();
+  }
 }
 // UI Logic
 
-let player1 = new Player();
-let player2 = new Player();
+let player1 = new Player(0,0,0,true);
+let player2 = new Player(0,0,0,false);
 
 let btnRollOne = document.querySelector('.btn-rollOne');
 let btnHoldOne = document.querySelector('.btn-holdOne');
@@ -60,9 +72,7 @@ $(document).ready(function() {
 
   $(".btn-rollOne").click(function(event) {
     event.preventDefault();
-    player1.isActive = true
-    player2.isActive = false
-    activePlayer();
+    // activePlayerSwitch();
     player1.rollDice();
   $('.player-1-roll').text(player1.currentRoll)
   $('.player-1-turn-total').text(player1.turnScore)
@@ -70,10 +80,8 @@ $(document).ready(function() {
 
   $(".btn-holdOne").click(function(event) {
     event.preventDefault();
-    player1.isActive = false
-    player2.isActive = true
-    activePlayer();
     player1.gameScore();
+    activePlayerSwitch();
     player1.currentRoll = 0
     player1.turnScore = 0
     $('.player-1-game-score').text("Player One total score: " + player1.totalScore)
@@ -81,9 +89,7 @@ $(document).ready(function() {
 
   $(".btn-rollTwo").click(function(event) {
     event.preventDefault();
-    player2.isActive = true
-    player1.isActive = false
-    activePlayer();
+    //activePlayerSwitch();
     player2.rollDice();
   $('.player-2-roll').text(player2.currentRoll)
   $('.player-2-turn-total').text(player2.turnScore)
@@ -91,9 +97,7 @@ $(document).ready(function() {
 
   $(".btn-holdTwo").click(function(event) {
     event.preventDefault();
-    player1.isActive = true
-    player2.isActive = false
-    activePlayer();
+    activePlayerSwitch();
     player2.gameScore();
     player2.currentRoll = 0
     player2.turnScore = 0
