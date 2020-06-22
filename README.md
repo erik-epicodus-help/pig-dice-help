@@ -1,5 +1,7 @@
 # _Project Pig Dice_
 
+## Helper for Matthew, Mariel, and Tristan. A 'diff' of original code and this code can be found here: https://www.diffchecker.com/1KIVmVs1
+
 #### _App that allows 2 players to play the dice game called Pig Dice, 6.18.2020_
 
 #### By _**Matthew Craig, Mariel Hamson and Tristan Emmerson**_
